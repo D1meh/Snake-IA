@@ -3,6 +3,7 @@ from State import State
 from QLearning import QLearning
 from Results import plotResults, saveResults, loadResults
 
+import time
 
 class Training:
     LEARNING = QLearning()
@@ -11,6 +12,7 @@ class Training:
         self.sessions = params.sessions
         self.size = params.size
         self.save = params.save
+        self.choosetosave = params.choosetosave
         self.load = params.load
         self.dontlearn = params.dontlearn
         self.visual = params.visual
@@ -19,9 +21,9 @@ class Training:
         self.stepbystep = params.stepbystep
         self.nerd = params.nerd
 
-        if self.size < 10:
-            print("\033[91m\033[1mEXCEPTION RAISED: Size must be at least 10. Setting grid size to 10.\033[0m")
-            self.size = 10
+        if self.size < 5:
+            print("\033[91m\033[1mEXCEPTION RAISED: Size must be at least 5. Setting grid size to 10.\033[0m")
+            self.size = 5
 
     # Private
 
@@ -68,9 +70,13 @@ class Training:
             print("\033[93m\033[1mRequested an invalid number of training sessions, skipping training.\033[0m")
             return
         
+        startTime = time.time()
         for sessionNumber in range(self.sessions):
-            if sessionNumber % (self.sessions / 10) == 0:
+            if sessionNumber % (self.sessions / 10) == 0 or time.time() - startTime > 10:
                 print("\033[93mTraining progress: ", int(sessionNumber / self.sessions * 100), "% (", sessionNumber, "/", self.sessions, ")\033[0m", sep='')
+
+            if time.time() - startTime > 10:
+                startTime = time.time()
 
             g = Game(self.size)
             s = State(g)
@@ -105,7 +111,7 @@ class Training:
 
         if self.save:
             saveResults(self.LEARNING.qTable, self.save)
-        # else:
-        #     if input("Do you want to save the results? (y/n): ") == 'y':
-        #         outfile = input("Enter the file name: ")
-        #         saveResults(self.LEARNING.qTable, outfile)
+        elif self.choosetosave:
+            if input("Do you want to save the results? (y/n): ") == 'y':
+                outfile = input("Enter the file name: ")
+                saveResults(self.LEARNING.qTable, outfile)

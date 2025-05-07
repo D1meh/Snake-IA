@@ -10,8 +10,10 @@ if __name__ == '__main__':
     parser.add_argument('-sessions', type=int, default=1000,
                         help='Number of sessions to run (default = 1000)')
     parser.add_argument('-size', type=int, default=10,
-                        help='Size of the grid (default = 10)')
+                        help='Size of the grid (default = 10, min = 5)')
     parser.add_argument('-save', type=str, help='File to save the model to')
+    parser.add_argument('-choosetosave', action='store_true',
+                        help='Choose whether to save the model or not')
     parser.add_argument('-load', type=str, help='File to load the model from')
     parser.add_argument('-dontlearn', action='store_true',
                         help='Don\'t update the Q-table')

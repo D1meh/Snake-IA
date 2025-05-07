@@ -18,7 +18,7 @@ class Window:
 		self.stepbystep = training.stepbystep
 		self.nerd = training.nerd
 
-		self.FPS = 2 if self.stepbystep else 10
+		self.FPS = 10
 		SIZE = (training.size + 11) * 50, \
 			   (training.size + 2) * 50
 
@@ -149,23 +149,10 @@ class Window:
 				if self.stepbystep:
 					while True:
 						event = pygame.event.wait()
-						if event.type == pygame.QUIT:
-							pygame.quit()
-							exit()
 
 						if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
 							break
-					# waiting = True
-					# while waiting:
-					# 	for event in pygame.event.get():
-					# 		if event.type == pygame.QUIT:
-					# 			pygame.quit()
-					# 			exit()
 
-					# 	keys = pygame.key.get_pressed()
-					# 	if keys[pygame.K_ESCAPE]:
-					# 		pygame.quit()
-					# 		exit()
-
-					# 	if keys[pygame.K_SPACE]:
-					# 		waiting = False
+						if (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE) or event.type == pygame.QUIT:
+							pygame.quit()
+							exit()

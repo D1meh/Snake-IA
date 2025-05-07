@@ -70,5 +70,12 @@ class State:
 
     # Public
 
+    def __checkIfDead(self):
+        snakeX, snakeY = self.game.snake.getHead()
+        return self.__checkCell(snakeX, snakeY, 'WS')
+
     def getState(self):
+        if self.__checkIfDead():
+            return ("DEAD", "DEAD", "DEAD")
+        
         return (self.__checkDanger(), self.__checkRed(), self.__checkGreen())

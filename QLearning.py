@@ -1,8 +1,8 @@
 from random import randint, choice
 from numpy.random import rand
 
-ALPHA = 0.2
-GAMMA = 0.8
+ALPHA = 0.1
+GAMMA = 0.9
 EPSILON_FACTOR = 0.997
 
 class QLearning:
@@ -19,7 +19,10 @@ class QLearning:
     def __getQValues(self, state):
         try:
             if state not in self.qTable:
-                self.qTable[state] = [0, 0, 0, 0]  # UP DOWN LEFT RIGHT
+                if state != ("DEAD", "DEAD", "DEAD"):
+                    self.qTable[state] = [0, 0, 0, 0]  # UP DOWN LEFT RIGHT
+                else:
+                    self.qTable[state] = [-1000, -1000, -1000, -1000]
             return self.qTable[state]
         except TypeError:
             return [0, 0, 0, 0]
@@ -37,7 +40,6 @@ class QLearning:
         # Exploration
         if rand() < self.epsilon:
             self.epsilon *= EPSILON_FACTOR
-            print("\033[1;31mExploration\033[0m", self.epsilon)
             self.choseExploration += 1
             return randint(0, 3)
 
@@ -46,22 +48,22 @@ class QLearning:
         return self.__getBestAction(state)
 
     def updateQValue(self, state, action, reward, nextState):
-        dyingStates = [
-            ((True, False, False, False), (False, False, False, False), (False, False, False, False)),
-            ((False, True, False, False), (False, False, False, False), (False, False, False, False)),
-            ((False, False, True, False), (False, False, False, False), (False, False, False, False)),
-            ((False, False, False, True), (False, False, False, False), (False, False, False, False)),
+        # dyingStates = [
+        #     ((True, False, False, False), (False, False, False, False), (False, False, False, False)),
+        #     ((False, True, False, False), (False, False, False, False), (False, False, False, False)),
+        #     ((False, False, True, False), (False, False, False, False), (False, False, False, False)),
+        #     ((False, False, False, True), (False, False, False, False), (False, False, False, False)),
 
-        ]
+        # ]
 
         qValues = self.__getQValues(state)
         nextQValues = self.__getQValues(nextState)
-        if state in dyingStates:
-            print("state is", state)
-            print("nextState is", nextState)
-            print("next qValues", nextQValues)
-            print("before", qValues)
+        # if state in dyingStates:
+        # print("state is", state)
+        # print("nextState is", nextState)
+        # print("next qValues", nextQValues)
+        # print("before", qValues)
         qValues[action] = qValues[action] + ALPHA *\
             (reward + GAMMA * max(nextQValues) - qValues[action])
-        if state in dyingStates:
-            print("after", qValues)
+        # if state in dyingStates:
+        # print("after", qValues)
