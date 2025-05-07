@@ -5,15 +5,6 @@ class State:
     def __init__(self, game: Game):
         self.game = game
 
-    # 	# Debug
-    # 	self.startingPos = game.snake.getHead()
-    # 	self.history = []
-    # 	self.count = 0
-
-    # def addHistory(self, direction):
-    # 	self.history.append(direction)
-    # 	self.count += 1
-
     # Private
 
     def __checkCell(self, x, y, cellType):
@@ -77,5 +68,5 @@ class State:
     def getState(self):
         if self.__checkIfDead():
             return ("DEAD", "DEAD", "DEAD")
-        
+
         return (self.__checkDanger(), self.__checkRed(), self.__checkGreen())

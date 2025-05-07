@@ -5,6 +5,7 @@ ALPHA = 0.1
 GAMMA = 0.9
 EPSILON_FACTOR = 0.997
 
+
 class QLearning:
     def __init__(self):
         self.qTable = {}
@@ -48,22 +49,7 @@ class QLearning:
         return self.__getBestAction(state)
 
     def updateQValue(self, state, action, reward, nextState):
-        # dyingStates = [
-        #     ((True, False, False, False), (False, False, False, False), (False, False, False, False)),
-        #     ((False, True, False, False), (False, False, False, False), (False, False, False, False)),
-        #     ((False, False, True, False), (False, False, False, False), (False, False, False, False)),
-        #     ((False, False, False, True), (False, False, False, False), (False, False, False, False)),
-
-        # ]
-
         qValues = self.__getQValues(state)
         nextQValues = self.__getQValues(nextState)
-        # if state in dyingStates:
-        # print("state is", state)
-        # print("nextState is", nextState)
-        # print("next qValues", nextQValues)
-        # print("before", qValues)
         qValues[action] = qValues[action] + ALPHA *\
             (reward + GAMMA * max(nextQValues) - qValues[action])
-        # if state in dyingStates:
-        # print("after", qValues)

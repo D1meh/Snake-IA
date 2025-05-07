@@ -5,6 +5,7 @@ from Results import plotResults, saveResults, loadResults
 
 import time
 
+
 class Training:
     LEARNING = QLearning()
 
@@ -22,7 +23,8 @@ class Training:
         self.nerd = params.nerd
 
         if self.size < 5:
-            print("\033[91m\033[1mEXCEPTION RAISED: Size must be at least 5. Setting grid size to 10.\033[0m")
+            print("\033[91m\033[1mEXCEPTION RAISED: Size must be at least 5.\
+                   Setting grid size to 10.\033[0m")
             self.size = 5
 
     # Private
@@ -67,13 +69,18 @@ class Training:
             self.LEARNING.qTable = loadResults(self.load)
 
         if self.sessions < 1:
-            print("\033[93m\033[1mRequested an invalid number of training sessions, skipping training.\033[0m")
+            print("\033[93m\033[1mRequested an invalid number of training\
+                   sessions, skipping training.\033[0m")
             return
-        
+
         startTime = time.time()
         for sessionNumber in range(self.sessions):
-            if sessionNumber % (self.sessions / 10) == 0 or time.time() - startTime > 10:
-                print("\033[93mTraining progress: ", int(sessionNumber / self.sessions * 100), "% (", sessionNumber, "/", self.sessions, ")\033[0m", sep='')
+            if sessionNumber % (self.sessions / 10) == 0\
+                    or time.time() - startTime > 10:
+                print("\033[93mTraining progress: ",
+                      int(sessionNumber / self.sessions * 100),
+                      "% (", sessionNumber, "/", self.sessions,
+                      ")\033[0m", sep='')
 
             if time.time() - startTime > 10:
                 startTime = time.time()
@@ -85,10 +92,9 @@ class Training:
             while g.gameOver is False:
                 self.run(g, s)
                 currentDuration += 1
-                
+
             sizes.append(g.snake.size)
             durations.append(currentDuration)
-
 
         # Results
         print("\033[92m\033[1mTraining is completed!\033[0m")

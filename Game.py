@@ -137,7 +137,8 @@ class Game:
                     ((x, y) in currentSnakePositions and i == 0):
                 self.gameOver = True
                 if self.printDeath:
-                    print("Wall" if self.board[y][x] == 'W' else "Snake", direction)
+                    print("Wall" if self.board[y][x] == 'W' else "Snake",
+                          direction)
 
             self.board[y][x] = 'H' if i == 0 else 'S'
 
