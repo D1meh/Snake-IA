@@ -19,10 +19,13 @@ if __name__ == '__main__':
     parser.add_argument('-dontlearn', action='store_true',
                         help='Don\'t update the Q-table')
     parser.add_argument('-visual', action='store_true',
-                        help='Enable or disable visual mode (default = off)')
+                        help='Enable visual mode (default = off)')
+    parser.add_argument('-speed', type=int, default=10,
+                        help='Speed the game is displayed at (default = 10),\
+                            only used in visual mode.')
     parser.add_argument('-plot', action='store_true', help='Plot the results')
     parser.add_argument('-ui', action='store_true',
-                        help='Enable the user interface')
+                        help='Enable the user interface (default = off)')
     parser.add_argument('-stepbystep', action='store_true',
                         help='Shows each move step by step in visual mode')
     parser.add_argument('-nerd', action='store_true',

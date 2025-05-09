@@ -17,6 +17,7 @@ class Training:
         self.load = params.load
         self.dontlearn = params.dontlearn
         self.visual = params.visual
+        self.speed = params.speed
         self.plot = params.plot
         self.ui = params.ui
         self.stepbystep = params.stepbystep

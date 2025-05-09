@@ -2,7 +2,6 @@ from Training import Training
 from Game import Game
 from State import State
 
-# Remove pygame's welcome message
 import os
 import pygame
 
@@ -18,10 +17,16 @@ class Window:
         self.training = training
         self.stepbystep = training.stepbystep
         self.nerd = training.nerd
+        
+        self.speed = training.speed
+        if self.speed < 1:
+            print("\033[91m\033[1mEXCEPTION RAISED: Speed must be at least 1.\
+                   Setting speed to 10.\033[0m")
+            self.speed = 10
 
-        self.FPS = 10
         SIZE = (training.size + 11) * 50, \
                (training.size + 2) * 50
+        print(SIZE)
 
         self.SCREEN = pygame.display.set_mode(SIZE)
         self.CLOCK = pygame.time.Clock()
@@ -77,7 +82,7 @@ class Window:
         currentState = state.getState()
         if currentState in self.training.LEARNING.qTable:
             qValues = self.training.LEARNING.qTable[currentState]
-        else:
+        else:  # Should never happen, putting this just in case
             qValues = [0, 0, 0, 0]
 
         firstLine = "Coordinates: " + str(game.snake.getHead())
@@ -157,7 +162,7 @@ class Window:
                 currentDuration += 1
                 pygame.display.flip()
 
-                self.CLOCK.tick(self.FPS)
+                self.CLOCK.tick(self.speed)
 
                 if self.stepbystep:
                     while True:
