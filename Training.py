@@ -42,10 +42,10 @@ class Training:
 
     # Public
 
-    def run(self, g: Game, s: State):
+    def run(self, g: Game, s: State, canExplore=True):
 
         currentState = s.getState()
-        action = self.LEARNING.chooseAction(currentState)
+        action = self.LEARNING.chooseAction(currentState, canExplore)
         direction = ['U', 'D', 'L', 'R'][action]
         currentCell = g.update(direction)
 

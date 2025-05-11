@@ -14,7 +14,8 @@ if __name__ == '__main__':
                         help='Size of the grid (default = 10, min = 5)')
     parser.add_argument('-save', type=str, help='File to save the model to')
     parser.add_argument('-choosetosave', action='store_true',
-                        help='Choose whether to save the model or not')
+                        help='Choose whether to save the model or not after it\
+                            finished training (default = off)')
     parser.add_argument('-load', type=str, help='File to load the model from')
     parser.add_argument('-dontlearn', action='store_true',
                         help='Don\'t update the Q-table')
@@ -29,7 +30,8 @@ if __name__ == '__main__':
     parser.add_argument('-stepbystep', action='store_true',
                         help='Shows each move step by step in visual mode')
     parser.add_argument('-nerd', action='store_true',
-                        help='Show stats for nerd (default = off)')
+                        help='Show stats for nerd (default = off),\
+                            only used in visual mode')
 
     args = parser.parse_args()
     print(args)

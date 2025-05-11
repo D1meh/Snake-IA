@@ -17,7 +17,7 @@ class Window:
         self.training = training
         self.stepbystep = training.stepbystep
         self.nerd = training.nerd
-        
+
         self.speed = training.speed
         if self.speed < 1:
             print("\033[91m\033[1mEXCEPTION RAISED: Speed must be at least 1.\
@@ -158,7 +158,7 @@ class Window:
                 self.drawText(game, currentDuration, lastDirection)
                 if self.nerd:
                     self.drawNerdText(game, state)
-                lastDirection = self.training.run(game, state)
+                lastDirection = self.training.run(game, state, False)
                 currentDuration += 1
                 pygame.display.flip()
 
