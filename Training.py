@@ -32,7 +32,7 @@ class Training:
 
     def __getReward(self, currentCell):
         if currentCell == 'R':
-            return -10
+            return -100
         elif currentCell == 'G':
             return 1000
         elif currentCell == 'W' or currentCell == 'S':
