@@ -2,13 +2,15 @@ from Training import Training
 from Game import Game
 from State import State
 
-import os
+from math import floor
 import pygame
-
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 pygame.init()
 
-WIDTH_OFFSET = 200
+WIDTH_OFFSET = 100
+HEIGHT_OFFSET = 150
+FONT_SIZE = 14
+OFFSET_LEFT_TEXT = 20
+FREE_SPACE_ON_RIGHT = 30
 
 
 class Window:
@@ -21,43 +23,57 @@ class Window:
         self.speed = training.speed
         if self.speed < 1:
             print("\033[91m\033[1mEXCEPTION RAISED: Speed must be at least 1.\
-                   Setting speed to 10.\033[0m")
+ Setting speed to 10.\033[0m")
             self.speed = 10
 
-        SIZE = (training.size + 11) * 50, \
-               (training.size + 2) * 50
-        print(SIZE)
+        if training.size >= 35:
+            self.CELL_SIZE = max(int(
+                30 - floor((training.size - 35) / 5 + 1) * 5), 10)
+        else:
+            self.CELL_SIZE = 30
+        print(self.CELL_SIZE)
+        SIZE = (training.size + 2) * self.CELL_SIZE + 270, \
+               (training.size + 2) * self.CELL_SIZE
 
         self.SCREEN = pygame.display.set_mode(SIZE)
         self.CLOCK = pygame.time.Clock()
         pygame.display.set_caption("Learn2Slither")
 
     def draw(self, game: Game):
-        for x in range(0, (self.training.size + 2) * 50, 50):
-            for y in range(0, (self.training.size + 2) * 50, 50):
+        for x in range(0, (self.training.size + 2) * self.CELL_SIZE,
+                       self.CELL_SIZE):
+            for y in range(0, (self.training.size + 2) * self.CELL_SIZE,
+                           self.CELL_SIZE):
 
-                cell = game.board[y // 50][x // 50]
+                cell = game.board[y // self.CELL_SIZE][x // self.CELL_SIZE]
                 if cell == '0':  # Empty
                     pygame.draw.rect(self.SCREEN, "grey",
-                                     (x + WIDTH_OFFSET, y, 50, 50))
+                                     (x + WIDTH_OFFSET, y, self.CELL_SIZE,
+                                      self.CELL_SIZE))
                 elif cell == 'H':  # Head
                     pygame.draw.rect(self.SCREEN, "yellow",
-                                     (x + WIDTH_OFFSET, y, 50, 50))
+                                     (x + WIDTH_OFFSET, y, self.CELL_SIZE,
+                                      self.CELL_SIZE))
                 elif cell == 'S':  # Body segment
                     pygame.draw.rect(self.SCREEN, "blue",
-                                     (x + WIDTH_OFFSET, y, 50, 50))
+                                     (x + WIDTH_OFFSET, y, self.CELL_SIZE,
+                                      self.CELL_SIZE))
                 elif cell == 'R':  # Red apple
                     pygame.draw.rect(self.SCREEN, "red",
-                                     (x + WIDTH_OFFSET, y, 50, 50))
+                                     (x + WIDTH_OFFSET, y, self.CELL_SIZE,
+                                      self.CELL_SIZE))
                 elif cell == 'G':  # Green apple
                     pygame.draw.rect(self.SCREEN, "green",
-                                     (x + WIDTH_OFFSET, y, 50, 50))
+                                     (x + WIDTH_OFFSET, y, self.CELL_SIZE,
+                                      self.CELL_SIZE))
                 else:  # Wall
                     pygame.draw.rect(self.SCREEN, "black",
-                                     (x + WIDTH_OFFSET, y, 50, 50))
+                                     (x + WIDTH_OFFSET, y, self.CELL_SIZE,
+                                      self.CELL_SIZE))
 
                 pygame.draw.rect(self.SCREEN, "black",
-                                 (x + WIDTH_OFFSET, y, 50, 50), 1)
+                                 (x + WIDTH_OFFSET, y, self.CELL_SIZE,
+                                  self.CELL_SIZE), 1)
 
     def drawText(self, game, duration, lastDirection):
         firstLine = "Score: " + str(game.snake.size)
@@ -66,16 +82,19 @@ class Window:
         fourthLine = lastDirection
         content = [firstLine, secondLine, thirdLine, fourthLine]
 
-        screenHeight = self.SCREEN.get_height() - 250
-        font = pygame.font.SysFont("Arial", 35)
+        screenHeight = self.SCREEN.get_height() - HEIGHT_OFFSET
+        font = pygame.font.SysFont("Arial", FONT_SIZE)
 
         for i, line in enumerate(content):
             textSurface = font.render(line, True, "white")
             textRect = textSurface.get_rect()
             if i != 3:
-                textRect.topleft = (40, screenHeight / 2 * i + 100)
+                textRect.topleft = (OFFSET_LEFT_TEXT,
+                                    screenHeight / 2 * i + self.CELL_SIZE)
             else:
-                textRect.topleft = (40, screenHeight / 2 * (i-1) + 130)
+                textRect.topleft = (OFFSET_LEFT_TEXT,
+                                    screenHeight / 2 * (i-1) + self.CELL_SIZE
+                                    + 20)
             self.SCREEN.blit(textSurface, textRect)
 
     def drawNerdText(self, game, state):
@@ -91,15 +110,17 @@ class Window:
         fourthLine = ("Green Apple: ", str(currentState[2]))
         content = [firstLine, secondLine, thirdLine, fourthLine]
 
-        screenHeight = self.SCREEN.get_height() - 100
-        screenWidth = self.SCREEN.get_width()
-        font = pygame.font.SysFont("Arial", 30)
+        screenHeight = self.SCREEN.get_height()
+        screenWidth = self.SCREEN.get_width() - 50
+        fontSize = min(15, max(10, (screenHeight - self.CELL_SIZE * 2) / 15))
+
+        font = pygame.font.SysFont("Arial", fontSize)
 
         for i, line in enumerate(content):
             if i == 0:
                 textSurface = font.render(line, True, "white")
                 textRect = textSurface.get_rect()
-                textRect.topleft = (screenWidth - 250, 50)
+                textRect.topleft = (screenWidth - WIDTH_OFFSET, self.CELL_SIZE)
                 self.SCREEN.blit(textSurface, textRect)
             else:
                 splitState = line[1].split(',')
@@ -112,12 +133,12 @@ class Window:
                 secondPartRect = secondPart.get_rect()
                 thirdPartRect = thirdPart.get_rect()
 
-                firstPartRect.topleft = (screenWidth - 250,
+                firstPartRect.topleft = (screenWidth - WIDTH_OFFSET,
                                          screenHeight / 5 * i)
-                secondPartRect.topleft = (screenWidth - 250,
-                                          screenHeight / 5 * i + 30)
-                thirdPartRect.topleft = (screenWidth - 250,
-                                         screenHeight / 5 * i + 60)
+                secondPartRect.topleft = (screenWidth - WIDTH_OFFSET,
+                                          screenHeight / 5 * i + fontSize)
+                thirdPartRect.topleft = (screenWidth - WIDTH_OFFSET,
+                                         screenHeight / 5 * i + fontSize * 2)
 
                 self.SCREEN.blit(firstPart, firstPartRect)
                 self.SCREEN.blit(secondPart, secondPartRect)
@@ -129,8 +150,8 @@ class Window:
                                      "green" if qValue == max(qValues)
                                      else "white")
             qValueRect = qValueText.get_rect()
-            qValueRect.topleft = (screenWidth - 250,
-                                  screenHeight - 100 + i * 30)
+            qValueRect.topleft = (screenWidth - WIDTH_OFFSET,
+                                  screenHeight / 5 * 4 + i * fontSize)
             self.SCREEN.blit(qValueText, qValueRect)
 
     def run(self):

@@ -25,7 +25,7 @@ class Training:
 
         if self.size < 5:
             print("\033[91m\033[1mEXCEPTION RAISED: Size must be at least 5.\
-                   Setting grid size to 10.\033[0m")
+ Setting grid size to 5.\033[0m")
             self.size = 5
 
     # Private
@@ -71,7 +71,7 @@ class Training:
 
         if self.sessions < 1:
             print("\033[93m\033[1mRequested an invalid number of training\
-                   sessions, skipping training.\033[0m")
+ sessions. Skipped training.\033[0m")
             return
 
         startTime = time.time()

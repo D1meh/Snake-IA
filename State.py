@@ -59,11 +59,11 @@ class State:
             self.__checkCell(checkWest, snakeY, 'G')
         )
 
-    # Public
-
     def __checkIfDead(self):
         snakeX, snakeY = self.game.snake.getHead()
         return self.__checkCell(snakeX, snakeY, 'WS')
+
+    # Public
 
     def getState(self):
         if self.__checkIfDead():

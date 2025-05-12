@@ -22,7 +22,7 @@ def saveResults(data, outfile):
         print("\033[92m\033[1mModel saved to", outfile, "\033[0m")
     except Exception:
         print("\033[91m\033[1mEXCEPTION RAISED: Error trying to save\
-              results to ", outfile, ". Cancelling.\033[0m", sep='')
+ results to ", outfile, ". Cancelling.\033[0m", sep='')
 
 
 def loadResults(infile):
@@ -33,6 +33,6 @@ def loadResults(infile):
         return data
     except Exception:
         print("\033[91m\033[1mEXCEPTION RAISED: Error trying to load results \
-              from ", infile, ". Will start with default qTable.\033[0m",
+ from ", infile, ". Will start with default qTable.\033[0m",
               sep='')
         return {}

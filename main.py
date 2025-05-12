@@ -34,11 +34,14 @@ if __name__ == '__main__':
                             only used in visual mode')
 
     args = parser.parse_args()
-    print(args)
 
     training = Training(args)
     training.train()
 
     if args.visual:
-        w = Window(training)
-        w.run()
+        if args.size < 101:
+            w = Window(training)
+            w.run()
+        else:
+            print("\033[91m\033[1mEXCEPTION RAISED: Can't open a window if\
+ the grid size is more than 100. Skipped.\033[0m")
