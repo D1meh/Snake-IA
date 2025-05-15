@@ -1,8 +1,11 @@
 from Training import Training
 from Window import Window
 from UI.Menu import Menu
+from UI.utils import WINDOW_SIZE
 
 import argparse
+import pygame
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='Learn2Slither',
@@ -38,7 +41,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.ui:
-        ui = Menu()
+        screen = pygame.display.set_mode(WINDOW_SIZE)
+        clock = pygame.time.Clock()
+        ui = Menu(screen, clock)
         ui.run()
 
     else:
