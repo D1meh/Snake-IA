@@ -63,7 +63,7 @@ class Training:
 
         return direction
 
-    def train(self):
+    def train(self, showLogs=True):
         durations, sizes = [], []
 
         if self.load:
@@ -76,7 +76,7 @@ class Training:
 
         startTime = time.time()
         for sessionNumber in range(self.sessions):
-            if sessionNumber % (self.sessions / 10) == 0\
+            if showLogs and sessionNumber % (self.sessions / 10) == 0\
                     or time.time() - startTime > 10:
                 print("\033[93mTraining progress: ",
                       int(sessionNumber / self.sessions * 100),
@@ -98,20 +98,21 @@ class Training:
             durations.append(currentDuration)
 
         # Results
-        print("\033[92m\033[1mTraining is completed!\033[0m")
+        if showLogs:
+            print("\033[92m\033[1mTraining is completed!\033[0m")
 
-        print("Highest length: ", max(sizes),
-              ", with the duration on this run being ",
-              durations[sizes.index(max(sizes))], ", achieved on run #",
-              sizes.index(max(sizes)), sep='')
+            print("Highest length: ", max(sizes),
+                ", with the duration on this run being ",
+                durations[sizes.index(max(sizes))], ", achieved on run #",
+                sizes.index(max(sizes)), sep='')
 
-        print("Highest duration: ", max(durations),
-              ", with the size on this run being ",
-              sizes[durations.index(max(durations))], ", achieved on run #",
-              durations.index(max(durations)), sep='')
+            print("Highest duration: ", max(durations),
+                ", with the size on this run being ",
+                sizes[durations.index(max(durations))], ", achieved on run #",
+                durations.index(max(durations)), sep='')
 
-        print("Exploration:", self.LEARNING.choseExploration,
-              ", Exploitation:", self.LEARNING.choseExploitation)
+            print("Exploration:", self.LEARNING.choseExploration,
+                ", Exploitation:", self.LEARNING.choseExploitation)
 
         if self.plot:
             plotResults(durations, sizes)

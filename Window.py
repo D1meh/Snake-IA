@@ -31,10 +31,8 @@ class Window:
                 30 - floor((training.size - 35) / 5 + 1) * 5), 10)
         else:
             self.CELL_SIZE = 30
-        print(self.CELL_SIZE)
         SIZE = (training.size + 2) * self.CELL_SIZE + 270, \
                (training.size + 2) * self.CELL_SIZE
-
         self.SCREEN = pygame.display.set_mode(SIZE)
         self.CLOCK = pygame.time.Clock()
         pygame.display.set_caption("Learn2Slither")
@@ -181,8 +179,8 @@ class Window:
                     self.drawNerdText(game, state)
                 lastDirection = self.training.run(game, state, False)
                 currentDuration += 1
-                pygame.display.flip()
 
+                pygame.display.flip()
                 self.CLOCK.tick(self.speed)
 
                 if self.stepbystep:

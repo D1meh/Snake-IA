@@ -1,5 +1,6 @@
 from Training import Training
 from Window import Window
+from UI.Menu import Menu
 
 import argparse
 
@@ -26,7 +27,8 @@ if __name__ == '__main__':
                             only used in visual mode.')
     parser.add_argument('-plot', action='store_true', help='Plot the results')
     parser.add_argument('-ui', action='store_true',
-                        help='Enable the user interface (default = off)')
+                        help='Enable the user interface (default = off).\
+                            Any other arg will not be considered')
     parser.add_argument('-stepbystep', action='store_true',
                         help='Shows each move step by step in visual mode')
     parser.add_argument('-nerd', action='store_true',
@@ -35,13 +37,18 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    training = Training(args)
-    training.train()
+    if args.ui:
+        ui = Menu()
+        ui.run()
 
-    if args.visual:
-        if args.size < 101:
-            w = Window(training)
-            w.run()
-        else:
-            print("\033[91m\033[1mEXCEPTION RAISED: Can't open a window if\
- the grid size is more than 100. Skipped.\033[0m")
+    else:
+        training = Training(args)
+        training.train()
+
+        if args.visual:
+            if args.size < 101:
+                w = Window(training)
+                w.run()
+            else:
+                print("\033[91m\033[1mEXCEPTION RAISED: Can't open a window if\
+    the grid size is more than 100. Skipped.\033[0m")
