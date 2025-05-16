@@ -9,7 +9,7 @@ import time
 class Training:
     LEARNING = QLearning()
 
-    def __init__(self, params):
+    def __init__(self, params, showError=True):
         self.sessions = params.sessions
         self.size = params.size
         self.save = params.save
@@ -23,7 +23,7 @@ class Training:
         self.stepbystep = params.stepbystep
         self.nerd = params.nerd
 
-        if self.size < 5:
+        if self.size < 5 and showError:
             print("\033[91m\033[1mEXCEPTION RAISED: Size must be at least 5.\
  Setting grid size to 5.\033[0m")
             self.size = 5
@@ -102,17 +102,17 @@ class Training:
             print("\033[92m\033[1mTraining is completed!\033[0m")
 
             print("Highest length: ", max(sizes),
-                ", with the duration on this run being ",
-                durations[sizes.index(max(sizes))], ", achieved on run #",
-                sizes.index(max(sizes)), sep='')
+                  ", with the duration on this run being ",
+                  durations[sizes.index(max(sizes))], ", done on run #",
+                  sizes.index(max(sizes)), sep='')
 
             print("Highest duration: ", max(durations),
-                ", with the size on this run being ",
-                sizes[durations.index(max(durations))], ", achieved on run #",
-                durations.index(max(durations)), sep='')
+                  ", with the size on this run being ",
+                  sizes[durations.index(max(durations))], ", done on run #",
+                  durations.index(max(durations)), sep='')
 
             print("Exploration:", self.LEARNING.choseExploration,
-                ", Exploitation:", self.LEARNING.choseExploitation)
+                  ", Exploitation:", self.LEARNING.choseExploitation)
 
         if self.plot:
             plotResults(durations, sizes)

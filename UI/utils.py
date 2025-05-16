@@ -12,6 +12,10 @@ BACKGROUND = pygame.transform.scale(BACKGROUND, WINDOW_SIZE)
 FONT = os.path.join(
             os.path.dirname(__file__), "statics/PressStart2P.ttf")
 
+BUTTON = pygame.image.load(os.path.join(
+            os.path.dirname(__file__), "statics/button.png"))
+BUTTON = pygame.transform.scale(BUTTON, BUTTON_SIZE)
+
 def fadeout(screen):
     fade = pygame.Surface(WINDOW_SIZE)
     fade.fill((0,0,0))
@@ -19,7 +23,7 @@ def fadeout(screen):
         fade.set_alpha(i)
         screen.blit(fade, (0,0))
         pygame.display.flip()
-        time.sleep(0.01)
+        time.sleep(0.007)
 
 def mouseClickedOnButton(mouse, coord):
     x, y = mouse
