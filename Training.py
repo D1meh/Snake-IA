@@ -63,7 +63,7 @@ class Training:
 
         return direction
 
-    def train(self, showLogs=True):
+    def train(self, showLogs=True, progress=None):
         durations, sizes = [], []
 
         if self.load:
@@ -96,6 +96,9 @@ class Training:
 
             sizes.append(g.snake.size)
             durations.append(currentDuration)
+
+            if progress:
+                progress(sessionNumber)
 
         # Results
         if showLogs:
