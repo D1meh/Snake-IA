@@ -25,6 +25,7 @@ class Display:
 
         self.SCREEN = screen
         self.CLOCK = clock
+        self.fps = 20
 
     def initGame(self):
         self.game = Game(self.size)
@@ -82,7 +83,10 @@ class Display:
 
     def drawNerdText(self):
         currentState = self.state.getState()
-        qValues = self.training.LEARNING.qTable[currentState]
+        if currentState in self.training.LEARNING.qTable:
+            qValues = self.training.LEARNING.qTable[currentState]
+        else:  # Should never happen, putting this just in case
+            qValues = [0, 0, 0, 0]
 
         firstLine = "Coordinates: " + str(self.game.snake.getHead())
         secondLine = ("Danger: ", str(currentState[0]))
@@ -148,33 +152,69 @@ class Display:
             self.SCREEN.blit(BUTTON, (200 + 500 * idx, 800))
             self.SCREEN.blit(buttonText, buttonTextRect)
 
+    def drawSpeedButton(self):
+        font = pygame.font.Font(FONT, 20)
+
+        buttonText = font.render("-         +", True, "#9A845B")
+        buttonTextRect = buttonText.get_rect()
+        buttonTextRect.topleft = (495, 862)
+
+        speedText = font.render("Speed " + str(self.fps), True, "#9A845B")
+        speedTextRect = speedText.get_rect()
+        speedTextRect.topleft = (525, 862)
+
+        self.SCREEN.blit(BUTTON, (450, 800))
+        self.SCREEN.blit(buttonText, buttonTextRect)
+        self.SCREEN.blit(speedText, speedTextRect)
+
     # Public
 
     def displayAI(self):
+        minusSpeed = (490, 510, 850, 880)
+        plusSpeed = (695, 715, 850, 880)
+
         while True:
             self.initGame()
             self.state = State(self.game)
             currentDuration = 0
 
             while self.game.gameOver is False:
+                mouse = pygame.mouse.get_pos()
+
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         fadeout(self.SCREEN)
                         pygame.quit()
                         exit()
 
+                    if event.type == pygame.MOUSEBUTTONDOWN\
+                            and not self.stepbystep:
+
+                        if minusSpeed[0] <= mouse[0] <= minusSpeed[1] and\
+                                minusSpeed[2] <= mouse[1] <= minusSpeed[3] and\
+                                self.fps > 2:
+                            self.fps -= 2
+
+                        if plusSpeed[0] <= mouse[0] <= plusSpeed[1] and\
+                                plusSpeed[2] <= mouse[1] <= plusSpeed[3] and\
+                                self.fps < 100:
+                            self.fps += 2
+
                 self.SCREEN.fill((0, 0, 0))
                 self.SCREEN.blit(BACKGROUND, (0, 0))
                 self.drawMap()
                 self.drawText(currentDuration)
+
                 if self.nerd:
                     self.drawNerdText()
+                if not self.stepbystep:
+                    self.drawSpeedButton()
 
                 self.training.run(self.game, self.state, False)
                 currentDuration += 1
 
                 pygame.display.flip()
-                self.CLOCK.tick(10)
+                self.CLOCK.tick(self.fps)
 
                 if self.stepbystep:
                     while True:

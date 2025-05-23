@@ -1,4 +1,4 @@
-from .utils import BACKGROUND, FONT, mouseClickedOnButton,\
+from .utils import BACKGROUND, FONT, mouseClickedOnButton, \
                     BUTTON, fadeout, grayscale
 from .Display import Display
 from Training import Training
@@ -88,13 +88,21 @@ class Train:
                                 values[inputClicked] / 10)
 
                         elif event.key >= pygame.K_KP_1\
-                            and event.key <= pygame.K_KP_0\
-                                and values[inputClicked] * 10 < 1_000_000_000:
+                                and event.key <= pygame.K_KP_0:
 
-                            values[inputClicked] = \
-                                  values[inputClicked] * 10 + (
-                                      (event.key - pygame.K_KP_1 + 1) % 10
-                                      )
+                            if (inputClicked == 0
+                                and values[0] * 10 < 1_000_000_000) \
+                                or (inputClicked == 1
+                                    and values[1] * 10 <= 100):
+
+                                values[inputClicked] = \
+                                    values[inputClicked] * 10 + (
+                                        (event.key - pygame.K_KP_1 + 1) % 10
+                                        )
+
+                                if inputClicked == 1\
+                                        and values[inputClicked] > 100:
+                                    values[1] = 100
 
             # Reset display
             self.SCREEN.fill("black")
@@ -199,15 +207,15 @@ class Train:
         self.SCREEN.blit(title, titleRect)
 
         # Loading bar
-        pygame.draw.rect(self.SCREEN, "gold", (400, 500, 400, 50), 1)
-        pygame.draw.rect(self.SCREEN, "gold", (400, 500, 4 * percent, 50))
+        pygame.draw.rect(self.SCREEN, "gold", (400, 300, 400, 50), 1)
+        pygame.draw.rect(self.SCREEN, "gold", (400, 300, 4 * percent, 50))
 
         # Progress
         percentProgress = self.argsFont.render(
             f"{int(percent)}% ({self.trainingCount}/{totalSessions})",
             True, "orange")
         percentProgressRect = percentProgress.get_rect()
-        percentProgressRect.topleft = (460, 600)
+        percentProgressRect.topleft = (450, 400)
         self.SCREEN.blit(percentProgress, percentProgressRect)
 
         # Start button
@@ -221,12 +229,44 @@ class Train:
         buttonColor = (200, 200, 255) if isHovering else "#9A845B"
         buttonText = self.argsFont.render("Start", True, buttonColor)
         buttonTextRect = buttonText.get_rect()
-        buttonTextRect.topleft = (550, 762)
-        self.SCREEN.blit(BUTTON if self.doneTraining else button, (450, 700))
+        buttonTextRect.topleft = (550, 862)
+        self.SCREEN.blit(BUTTON if self.doneTraining else button, (450, 800))
         self.SCREEN.blit(buttonText, buttonTextRect)
 
         pygame.display.flip()
         self.CLOCK.tick(30)
+
+    def __showStats(self):
+        firstTenth = int(len(self.sizes) / 10)
+        
+        maxDuration = max(self.durations)
+        maxSize = max(self.sizes)
+        averageSize = sum(self.sizes) / len(self.sizes)
+        averageSizeOnBeginning = sum(self.sizes[:firstTenth]) / firstTenth
+
+        values = {
+            "Max duration:": maxDuration,
+            "Max size:": maxSize,
+            "Average size": averageSize,
+            "Average size on first 10%": averageSizeOnBeginning
+        }
+
+        idx = 0
+        for valueName, value in values.values():
+            text = self.argsFont.render(valueName, True, "white")
+            valueText = self.argsFont.render(str(value), True, "orange")
+
+            textRect = text.get_rect()
+            textRect.topleft = (400 if idx < 2 else 800,
+                                600 if idx % 2 == 0 else 650)
+
+            valueTextRect = valueText.get_rect()
+            valueTextRect.topleft = (450 if idx < 2 else 850,
+                                     600 if idx % 2 == 0 else 650)
+            
+            self.SCREEN.blit(text, textRect)
+            self.SCREEN.blit(valueText, valueTextRect)
+
 
     def __train(self, values, boolValues):
         self.trainingCount = 0
@@ -252,7 +292,8 @@ class Train:
 
             self.training = Training(args, False)
             self.training.resetQTable()
-            self.training.train(showLogs=False, progress=updateProgress)
+            self.sizes, self.durations = self.training.train(
+                showLogs=False, progress=updateProgress)
             self.doneTraining = True
 
         self.doneTraining = False
@@ -290,4 +331,5 @@ class Train:
                                        boolValues[2], self.training
                                        ).displayAI()
 
+            self.__showStats()
             self.__drawLoadingBar(values[0])

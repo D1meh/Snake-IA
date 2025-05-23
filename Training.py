@@ -130,5 +130,7 @@ class Training:
                 outfile = input("Enter the file name: ")
                 saveResults(self.LEARNING.qTable, outfile)
 
+        return sizes, durations
+
     def resetQTable(self):
         self.LEARNING.qTable = {}
