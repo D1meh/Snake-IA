@@ -76,8 +76,8 @@ class Training:
 
         startTime = time.time()
         for sessionNumber in range(self.sessions):
-            if showLogs and sessionNumber % (self.sessions / 10) == 0\
-                    or time.time() - startTime > 10:
+            if showLogs and (sessionNumber % (self.sessions / 10) == 0
+                             or time.time() - startTime > 10):
                 print("\033[93mTraining progress: ",
                       int(sessionNumber / self.sessions * 100),
                       "% (", sessionNumber, "/", self.sessions,
@@ -85,6 +85,9 @@ class Training:
 
             if time.time() - startTime > 10:
                 startTime = time.time()
+
+            if progress:
+                progress(sessionNumber)
 
             g = Game(self.size)
             s = State(g)
@@ -97,8 +100,8 @@ class Training:
             sizes.append(g.snake.size)
             durations.append(currentDuration)
 
-            if progress:
-                progress(sessionNumber)
+        if progress:
+            progress(self.sessions)
 
         # Results
         if showLogs:
@@ -126,3 +129,6 @@ class Training:
             if input("Do you want to save the results? (y/n): ") == 'y':
                 outfile = input("Enter the file name: ")
                 saveResults(self.LEARNING.qTable, outfile)
+
+    def resetQTable(self):
+        self.LEARNING.qTable = {}

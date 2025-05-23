@@ -18,6 +18,7 @@ ALPHA = 0.1
 GAMMA = 0.9
 
 # Epsilon determines how much the agent explores
+
 # This value is decreased each time it explores
 # The more time goes by, the less it explores and the more it exploits
 EPSILON_FACTOR = 0.997

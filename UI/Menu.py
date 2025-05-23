@@ -1,15 +1,15 @@
-from .utils import fadeout, mouseClickedOnButton, BACKGROUND, FONT, BUTTON_SIZE, BUTTON
+from .utils import fadeout, mouseClickedOnButton, BACKGROUND, FONT, BUTTON
 from .Train import Train
 
 import pygame
-import os
 
 BUTTONS_COORDS = {
-    0: (460, 740, 430, 510), # Start
-    1: (460, 740, 555, 635), # Play
-    2: (460, 740, 680, 760), # Statistics
-    3: (460, 740, 805, 885)  # Quit
+    0: (460, 740, 430, 510),  # Start
+    1: (460, 740, 555, 635),  # Play
+    2: (460, 740, 680, 760),  # Statistics
+    3: (460, 740, 805, 885)   # Quit
 }
+
 
 class Menu:
 
@@ -24,11 +24,6 @@ class Menu:
         # Load font
         titleFont = pygame.font.Font(FONT, 70)
         buttonsFont = pygame.font.Font(FONT, 20)
-
-        # Load buttons
-        # button = pygame.image.load(os.path.join(
-        #     os.path.dirname(__file__), "statics/button.png"))
-        # button = pygame.transform.scale(button, BUTTON_SIZE)
 
         while True:
 
@@ -71,8 +66,9 @@ class Menu:
             # Buttons
             buttonsText = ["Train AI", "Play", "Statistics", "Quit"]
             for idx, text in enumerate(buttonsText):
-                isHovering = BUTTONS_COORDS[idx][0] <= mouse[0] <= BUTTONS_COORDS[idx][1] and\
-                             BUTTONS_COORDS[idx][2] <= mouse[1] <= BUTTONS_COORDS[idx][3]
+                x1, x2, y1, y2 = BUTTONS_COORDS[idx]
+                isHovering = x1 <= mouse[0] <= x2 and\
+                    y1 <= mouse[1] <= y2
                 buttonColor = (200, 200, 255) if isHovering else "#9A845B"
 
                 buttonText = buttonsFont.render(text, True, buttonColor)
@@ -85,4 +81,3 @@ class Menu:
 
             pygame.display.flip()
             self.CLOCK.tick(10)
-
