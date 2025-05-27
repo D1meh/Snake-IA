@@ -1,0 +1,19 @@
+[
+    {
+        "size": 10,
+        "trainingSessions": 1000,
+        "data": {
+            "ran#Times": 3,
+            "maxSize": 46,
+            "averageSize": 13.602666666666666,
+            "averageSizeOnFirstHalf": 8.0732,
+            "averageSizeOnSecondHalf": 15.90306666666667,
+            "averageSizeOnLastTenth": 18.826666666666668,
+            "maxDuration": 11695,
+            "averageDuration": 190.32166666666666,
+            "averageDurationOnFirstHalf": 122.02253333333334,
+            "averageDurationOnSecondHalf": 194.446,
+            "averageDurationOnLastTenth": 174.384632034632
+        }
+    }
+]

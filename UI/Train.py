@@ -2,6 +2,7 @@ from .utils import BACKGROUND, FONT, mouseClickedOnButton, \
                     BUTTON, fadeout, grayscale
 from .Display import Display
 from Training import Training
+from .Stats import Stats
 
 from types import SimpleNamespace
 import threading
@@ -219,9 +220,8 @@ class Train:
         self.SCREEN.blit(percentProgress, percentProgressRect)
 
         # Start button
-        coord = (465, 740, 730, 810)
         mouse = pygame.mouse.get_pos()
-        x1, x2, y1, y2 = coord
+        x1, x2, y1, y2 = START_BUTTON_COORDS[0]
         isHovering = x1 <= mouse[0] <= x2 and\
             y1 <= mouse[1] <= y2 and self.doneTraining
         button = grayscale(BUTTON.copy())
@@ -229,44 +229,43 @@ class Train:
         buttonColor = (200, 200, 255) if isHovering else "#9A845B"
         buttonText = self.argsFont.render("Start", True, buttonColor)
         buttonTextRect = buttonText.get_rect()
-        buttonTextRect.topleft = (550, 862)
-        self.SCREEN.blit(BUTTON if self.doneTraining else button, (450, 800))
+        buttonTextRect.topleft = (550, 762)
+        self.SCREEN.blit(BUTTON if self.doneTraining else button, (450, 700))
         self.SCREEN.blit(buttonText, buttonTextRect)
 
         pygame.display.flip()
         self.CLOCK.tick(30)
 
     def __showStats(self):
-        firstTenth = int(len(self.sizes) / 10)
         
         maxDuration = max(self.durations)
         maxSize = max(self.sizes)
-        averageSize = sum(self.sizes) / len(self.sizes)
-        averageSizeOnBeginning = sum(self.sizes[:firstTenth]) / firstTenth
 
         values = {
             "Max duration:": maxDuration,
             "Max size:": maxSize,
-            "Average size": averageSize,
-            "Average size on first 10%": averageSizeOnBeginning
         }
 
         idx = 0
-        for valueName, value in values.values():
+        for valueName, value in values.items():
             text = self.argsFont.render(valueName, True, "white")
             valueText = self.argsFont.render(str(value), True, "orange")
 
             textRect = text.get_rect()
-            textRect.topleft = (400 if idx < 2 else 800,
-                                600 if idx % 2 == 0 else 650)
+            textRect.topleft = (200 if idx < 1 else 680,
+                                600)
 
             valueTextRect = valueText.get_rect()
-            valueTextRect.topleft = (450 if idx < 2 else 850,
-                                     600 if idx % 2 == 0 else 650)
+            valueTextRect.topleft = (460 if idx < 1 else 860,
+                                     600)
             
             self.SCREEN.blit(text, textRect)
             self.SCREEN.blit(valueText, valueTextRect)
 
+            idx += 1
+
+        pygame.display.flip()
+        self.CLOCK.tick(30)
 
     def __train(self, values, boolValues):
         self.trainingCount = 0
@@ -311,6 +310,10 @@ class Train:
             if self.doneTraining:
                 t.join()
                 break
+
+        if not boolValues[1]:  # Step by step mode
+            Stats.updateStats(self.sizes, self.durations,
+                                                values[1], values[0])
 
         while True:
             mouse = pygame.mouse.get_pos()

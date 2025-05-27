@@ -1,5 +1,6 @@
 from .utils import fadeout, mouseClickedOnButton, BACKGROUND, FONT, BUTTON
 from .Train import Train
+from .Stats import Stats
 
 import pygame
 
@@ -41,7 +42,7 @@ class Menu:
                     elif buttonClicked == 1:
                         pass
                     elif buttonClicked == 2:
-                        pass
+                        Stats.showAllStats(self.SCREEN, self.CLOCK)
                     elif buttonClicked == 3:
                         fadeout(self.SCREEN)
                         pygame.quit()
