@@ -40,7 +40,7 @@ class Menu:
                     if buttonClicked == 0:
                         Train(self.SCREEN, self.CLOCK).run()
                     elif buttonClicked == 1:
-                        pass
+                        Train(self.SCREEN, self.CLOCK).run(settingsForAI=False)
                     elif buttonClicked == 2:
                         Stats.showAllStats(self.SCREEN, self.CLOCK)
                     elif buttonClicked == 3:

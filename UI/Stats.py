@@ -15,12 +15,14 @@ TEMPLATE = {
 
 		"maxSize": 0,
 		"averageSize": 0,
+		"maxAverageSize": 0,
 		"averageSizeOnFirstHalf": 0,
 		"averageSizeOnSecondHalf": 0,
 		"averageSizeOnLastTenth": 0,
 
 		"maxDuration": 0,
 		"averageDuration": 0,
+		"maxAverageDuration": 0,
 		"averageDurationOnFirstHalf": 0,
 		"averageDurationOnSecondHalf": 0,
 		"averageDurationOnLastTenth": 0
@@ -77,12 +79,14 @@ class Stats:
 		data["ran#Times"] += 1
 		data["maxSize"] = max(data["maxSize"], max(sizes))
 		data["averageSize"] = (data["averageSize"] * coefficient + sum(sizes)) / (coefficient + len(sizes))
+		data["maxAverageSize"] = (data["maxAverageSize"] * (data["ran#Times"] - 1) + max(sizes)) / data["ran#Times"]
 		data["averageSizeOnFirstHalf"] = (data["averageSizeOnFirstHalf"] * coefficient + sum(sizes[:half])) / (coefficient + half)
 		data["averageSizeOnSecondHalf"] = (data["averageSizeOnSecondHalf"] * coefficient + sum(sizes[half:])) / (coefficient + half)
 		data["averageSizeOnLastTenth"] = (data["averageSizeOnLastTenth"] * coefficient + sum(sizes[-last_tenth:])) / (coefficient + last_tenth)
 
 		data["maxDuration"] = max(data["maxDuration"], max(durations))
 		data["averageDuration"] = (data["averageDuration"] * coefficient + sum(durations)) / (coefficient + len(durations))
+		data["maxAverageDuration"] = (data["maxAverageDuration"] * (data["ran#Times"] - 1) + max(durations)) / data["ran#Times"]
 		data["averageDurationOnFirstHalf"] = (data["averageDurationOnFirstHalf"] * coefficient + sum(durations[:half])) / (coefficient + half)
 		data["averageDurationOnSecondHalf"] = (data["averageDurationOnSecondHalf"] * coefficient + sum(durations[half:])) / (coefficient + half)
 		data["averageDurationOnLastTenth"] = (data["averageDurationOnLastTenth"] * coefficient + sum(durations[-last_tenth:])) / (coefficient + last_tenth)
@@ -138,12 +142,14 @@ class Stats:
 				"": "",  # Skip line
 				"Max Size:": stats['data']['maxSize'],
 				"Average Size:": f"{stats['data']['averageSize']:.2f}",
+				"Average Max Size:": f"{stats['data']['maxAverageSize']:.2f}",
 				"Average Size on First Half:": f"{stats['data']['averageSizeOnFirstHalf']:.2f}",
 				"Average Size on Second Half:": f"{stats['data']['averageSizeOnSecondHalf']:.2f}",
 				"Average Size on Last Tenth:": f"{stats['data']['averageSizeOnLastTenth']:.2f}",
 				" ": "",  # Skip line
 				"Max Duration:": stats['data']['maxDuration'],
 				"Average Duration:": f"{stats['data']['averageDuration']:.2f}",
+				"Average Max Duration:": f"{stats['data']['maxAverageDuration']:.2f}",
 				"Average Duration on First Half:": f"{stats['data']['averageDurationOnFirstHalf']:.2f}",
 				"Average Duration on Second Half:": f"{stats['data']['averageDurationOnSecondHalf']:.2f}",
 				"Average Duration on Last Tenth:": f"{stats['data']['averageDurationOnLastTenth']:.2f}"

@@ -1,6 +1,6 @@
 from Game import Game
 from State import State
-from .utils import fadeout, BACKGROUND, FONT, BUTTON, mouseClickedOnButton
+from .utils import fadeout, BACKGROUND, FONT, BUTTON, mouseClickedOnButton, getSnakeFacingDirection
 
 import pygame
 
@@ -254,5 +254,72 @@ class Display:
                         elif buttonClicked == 1:
                             return
 
+                pygame.display.flip()
+                self.CLOCK.tick(10)
+
+    def displayForPlayer(self):
+        while True:
+            self.initGame()
+            direction = getSnakeFacingDirection(self.game.snake.pos)
+            dontUpdateForXFrames = 20
+            framesSinceLastUpdate = 0
+            currentDuration = 0
+
+            while self.game.gameOver is False:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        fadeout(self.SCREEN)
+                        pygame.quit()
+                        exit()
+
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_UP:
+                            direction = 'U'
+                        elif event.key == pygame.K_DOWN:
+                            direction = 'D'
+                        elif event.key == pygame.K_LEFT:
+                            direction = 'L'
+                        elif event.key == pygame.K_RIGHT:
+                            direction = 'R'
+
+                self.SCREEN.fill((0, 0, 0))
+                self.SCREEN.blit(BACKGROUND, (0, 0))
+                self.drawMap()
+                self.drawText(currentDuration)
+
+                if framesSinceLastUpdate == dontUpdateForXFrames:
+                    framesSinceLastUpdate = 0
+                    lastCell = self.game.update(direction)
+                    if lastCell == 'G':
+                        dontUpdateForXFrames -= 1 if dontUpdateForXFrames > 1 else 0
+                    currentDuration += 1
+
+                pygame.display.flip()
+                self.CLOCK.tick(30)
+                framesSinceLastUpdate += 1
+
+            # Game over
+            while True:
+                self.SCREEN.fill((0, 0, 0))
+                self.SCREEN.blit(BACKGROUND, (0, 0))
+                self.drawMap()
+                self.drawText(currentDuration)
+                self.drawButtons()
+
+                mouse = pygame.mouse.get_pos()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        fadeout(self.SCREEN)
+                        pygame.quit()
+                        exit()
+
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        buttonClicked = mouseClickedOnButton(mouse,
+                                                             BUTTONS_COORDS)
+                        if buttonClicked == 0:
+                            return self.displayForPlayer()
+                        elif buttonClicked == 1:
+                            return
+                
                 pygame.display.flip()
                 self.CLOCK.tick(10)

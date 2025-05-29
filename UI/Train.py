@@ -41,7 +41,7 @@ class Train:
 
     # Public
 
-    def run(self):
+    def run(self, settingsForAI=True):
         # Init variables
         values = [1000, 10]  # Sessions, size
         valuesAreSelected = [False, False]  # Same
@@ -65,7 +65,11 @@ class Train:
 
                     buttonClicked = mouseClickedOnButton(mouse, BUTTONS_COORDS)
                     if buttonClicked == 0:
-                        self.__train(values, boolValues)
+                        if settingsForAI:
+                            self.__train(values, boolValues)
+                        else:
+                            Display(self.SCREEN, self.CLOCK, values[1],
+                                    False, False, None).displayForPlayer()
                     elif buttonClicked == 1:
                         return
 
@@ -75,7 +79,7 @@ class Train:
 
                     checkboxClicked = mouseClickedOnButton(mouse,
                                                            CHECKBOXES_COORDS)
-                    if checkboxClicked is not None:
+                    if checkboxClicked is not None and settingsForAI:
                         boolValues[checkboxClicked] = \
                             not boolValues[checkboxClicked]
 
@@ -110,7 +114,8 @@ class Train:
             self.SCREEN.blit(BACKGROUND, (0, 0))
 
             # Title
-            title = self.titleFont.render("Start new training", True, "gold")
+            title = self.titleFont.render("Start new training" if settingsForAI
+                                          else "Start new game", True, "gold")
             titleRect = title.get_rect()
             titleRect.topleft = (175, 100)
             self.SCREEN.blit(title, titleRect)
@@ -118,6 +123,8 @@ class Train:
             # Args: sessions and size
             firstTypeOfArgs = ["Sessions", "Grid size"]
             for idx, text in enumerate(firstTypeOfArgs):
+                if not settingsForAI and idx == 0:
+                    continue
                 # Arg text
                 buttonText = self.argsFont.render(text, True, "orange")
                 buttonTextRect = buttonText.get_rect()
@@ -148,31 +155,32 @@ class Train:
                 self.SCREEN.blit(valueText, valueTextRect)
 
             # Args: dontlearn, stepbystep and nerd
-            secondTypeOfArgs = ["Don't learn mode",
-                                "Step by step mode",
-                                "Nerd mode"]
+            if settingsForAI:
+                secondTypeOfArgs = ["Don't learn mode",
+                                    "Step by step mode",
+                                    "Nerd mode"]
 
-            for idx, text in enumerate(secondTypeOfArgs):
-                # Arg text
-                buttonText = self.argsFont.render(text, True, "orange")
-                buttonTextRect = buttonText.get_rect()
-                buttonTextRect.topleft = (WIDTH_OFFSET,
-                                          STARTING_HEIGHT + 150 + 75 * idx)
-                self.SCREEN.blit(buttonText, buttonTextRect)
+                for idx, text in enumerate(secondTypeOfArgs):
+                    # Arg text
+                    buttonText = self.argsFont.render(text, True, "orange")
+                    buttonTextRect = buttonText.get_rect()
+                    buttonTextRect.topleft = (WIDTH_OFFSET,
+                                            STARTING_HEIGHT + 150 + 75 * idx)
+                    self.SCREEN.blit(buttonText, buttonTextRect)
 
-                # Check box
-                pygame.draw.rect(self.SCREEN, "black",
-                                 (VALUE_WIDTH_OFFSET - 20,
-                                  STARTING_HEIGHT + 130 + 75 * idx, 50, 50), 3)
-                if boolValues[idx] is True:
-                    X = self.titleFont.render("X", True, "black")
-                    Xrect = X.get_rect()
-                    Xrect.topleft = (VALUE_WIDTH_OFFSET - 17,
-                                     STARTING_HEIGHT + 132 + 75 * idx)
-                    self.SCREEN.blit(X, Xrect)
+                    # Check box
+                    pygame.draw.rect(self.SCREEN, "black",
+                                    (VALUE_WIDTH_OFFSET - 20,
+                                    STARTING_HEIGHT + 130 + 75 * idx, 50, 50), 3)
+                    if boolValues[idx] is True:
+                        X = self.titleFont.render("X", True, "black")
+                        Xrect = X.get_rect()
+                        Xrect.topleft = (VALUE_WIDTH_OFFSET - 17,
+                                        STARTING_HEIGHT + 132 + 75 * idx)
+                        self.SCREEN.blit(X, Xrect)
 
             # Start and quit buttons
-            buttonsText = ["Start", "Quit"]
+            buttonsText = ["Start", "Back"]
             for idx, text in enumerate(buttonsText):
                 x1, x2, y1, y2 = BUTTONS_COORDS[idx]
                 isHovering = x1 <= mouse[0] <= x2 and\
@@ -192,7 +200,7 @@ class Train:
 
     # Private
 
-    def __drawLoadingBar(self, totalSessions):
+    def __drawLoadingBar(self, totalSessions, showStats=False):
         percent = int(self.trainingCount / totalSessions * 100)
 
         # Reset display
@@ -233,6 +241,9 @@ class Train:
         self.SCREEN.blit(BUTTON if self.doneTraining else button, (450, 700))
         self.SCREEN.blit(buttonText, buttonTextRect)
 
+        if showStats:
+            self.__showStats()
+
         pygame.display.flip()
         self.CLOCK.tick(30)
 
@@ -263,9 +274,6 @@ class Train:
             self.SCREEN.blit(valueText, valueTextRect)
 
             idx += 1
-
-        pygame.display.flip()
-        self.CLOCK.tick(30)
 
     def __train(self, values, boolValues):
         self.trainingCount = 0
@@ -334,5 +342,4 @@ class Train:
                                        boolValues[2], self.training
                                        ).displayAI()
 
-            self.__showStats()
-            self.__drawLoadingBar(values[0])
+            self.__drawLoadingBar(values[0], True)

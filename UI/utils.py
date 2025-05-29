@@ -43,3 +43,18 @@ def grayscale(surface):
             gray = int((r + g + b) / 3)
             surface.set_at((x, y), (gray, gray, gray, a))
     return surface
+
+def getSnakeFacingDirection(snake):
+    head = snake[0]
+    tail = snake[1]
+
+    if head[0] == tail[0]:
+        if head[1] < tail[1]:
+            return 'U'
+        else:
+            return 'D'
+    elif head[1] == tail[1]:
+        if head[0] < tail[0]:
+            return 'L'
+        else:
+            return 'R'
