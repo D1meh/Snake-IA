@@ -45,6 +45,7 @@ class Train:
         # Init variables
         values = [1000, 10]  # Sessions, size
         valuesAreSelected = [False, False]  # Same
+        errorFlagForValues = [False, False]  # Same
         boolValues = [False, False, False]  # Dontlearn, Stepbystep, Nerd
 
         # Load font
@@ -62,10 +63,14 @@ class Train:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     valuesAreSelected = [False, False]
+                    errorFlagForValues = [False, False]
 
                     buttonClicked = mouseClickedOnButton(mouse, BUTTONS_COORDS)
                     if buttonClicked == 0:
-                        if settingsForAI:
+                        if values[0] < 1 or values[1] < 5:
+                            errorFlagForValues = [values[0] < 1,
+                                                  values[1] < 5]
+                        elif settingsForAI:
                             self.__train(values, boolValues)
                         else:
                             Display(self.SCREEN, self.CLOCK, values[1],
@@ -194,6 +199,20 @@ class Train:
                 self.SCREEN.blit(BUTTON, (200 + 500 * idx,
                                           700))
                 self.SCREEN.blit(buttonText, buttonTextRect)
+
+            # Error messages
+            errorMessages = [
+                "Error: Number of sessions must be greater than 0!",
+                "Error: Grid size must be equal or greater than 5!"
+            ]
+            for idx, error in enumerate(errorFlagForValues):
+                if errorFlagForValues[idx]:
+                    errorText = self.argsFont.render(errorMessages[idx],
+                                                     True, "red")
+                    errorTextRect = errorText.get_rect()
+                    errorTextRect.topleft = (150,
+                                             200 + 30 * idx)
+                    self.SCREEN.blit(errorText, errorTextRect)
 
             pygame.display.flip()
             self.CLOCK.tick(10)

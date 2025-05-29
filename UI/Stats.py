@@ -73,8 +73,8 @@ class Stats:
 		# Update stats
 		data = stats["data"]
 		coefficient = stats["trainingSessions"] * data["ran#Times"]
-		half = len(sizes) // 2
-		last_tenth = len(sizes) // 10
+		half = max(len(sizes) // 2, 1)
+		lastTenth = max(len(sizes) // 10, 1)
 		
 		data["ran#Times"] += 1
 		data["maxSize"] = max(data["maxSize"], max(sizes))
@@ -82,14 +82,14 @@ class Stats:
 		data["maxAverageSize"] = (data["maxAverageSize"] * (data["ran#Times"] - 1) + max(sizes)) / data["ran#Times"]
 		data["averageSizeOnFirstHalf"] = (data["averageSizeOnFirstHalf"] * coefficient + sum(sizes[:half])) / (coefficient + half)
 		data["averageSizeOnSecondHalf"] = (data["averageSizeOnSecondHalf"] * coefficient + sum(sizes[half:])) / (coefficient + half)
-		data["averageSizeOnLastTenth"] = (data["averageSizeOnLastTenth"] * coefficient + sum(sizes[-last_tenth:])) / (coefficient + last_tenth)
+		data["averageSizeOnLastTenth"] = (data["averageSizeOnLastTenth"] * coefficient + sum(sizes[-lastTenth:])) / (coefficient + lastTenth)
 
 		data["maxDuration"] = max(data["maxDuration"], max(durations))
 		data["averageDuration"] = (data["averageDuration"] * coefficient + sum(durations)) / (coefficient + len(durations))
 		data["maxAverageDuration"] = (data["maxAverageDuration"] * (data["ran#Times"] - 1) + max(durations)) / data["ran#Times"]
 		data["averageDurationOnFirstHalf"] = (data["averageDurationOnFirstHalf"] * coefficient + sum(durations[:half])) / (coefficient + half)
 		data["averageDurationOnSecondHalf"] = (data["averageDurationOnSecondHalf"] * coefficient + sum(durations[half:])) / (coefficient + half)
-		data["averageDurationOnLastTenth"] = (data["averageDurationOnLastTenth"] * coefficient + sum(durations[-last_tenth:])) / (coefficient + last_tenth)
+		data["averageDurationOnLastTenth"] = (data["averageDurationOnLastTenth"] * coefficient + sum(durations[-lastTenth:])) / (coefficient + lastTenth)
 
 		# Save updated stats
 		for i, item in enumerate(content):
