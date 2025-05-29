@@ -1,6 +1,7 @@
 from Game import Game
 from State import State
-from .utils import fadeout, BACKGROUND, FONT, BUTTON, mouseClickedOnButton, getSnakeFacingDirection
+from .utils import fadeout, BACKGROUND, FONT, BUTTON,\
+    mouseClickedOnButton, getSnakeFacingDirection
 
 import pygame
 
@@ -291,7 +292,8 @@ class Display:
                     framesSinceLastUpdate = 0
                     lastCell = self.game.update(direction)
                     if lastCell == 'G':
-                        dontUpdateForXFrames -= 1 if dontUpdateForXFrames > 1 else 0
+                        dontUpdateForXFrames -= 1 if dontUpdateForXFrames > 1\
+                            else 0
                     currentDuration += 1
 
                 pygame.display.flip()
@@ -320,6 +322,6 @@ class Display:
                             return self.displayForPlayer()
                         elif buttonClicked == 1:
                             return
-                
+
                 pygame.display.flip()
                 self.CLOCK.tick(10)

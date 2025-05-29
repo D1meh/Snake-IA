@@ -170,18 +170,19 @@ class Train:
                     buttonText = self.argsFont.render(text, True, "orange")
                     buttonTextRect = buttonText.get_rect()
                     buttonTextRect.topleft = (WIDTH_OFFSET,
-                                            STARTING_HEIGHT + 150 + 75 * idx)
+                                              STARTING_HEIGHT + 150 + 75 * idx)
                     self.SCREEN.blit(buttonText, buttonTextRect)
 
                     # Check box
                     pygame.draw.rect(self.SCREEN, "black",
-                                    (VALUE_WIDTH_OFFSET - 20,
-                                    STARTING_HEIGHT + 130 + 75 * idx, 50, 50), 3)
+                                     (VALUE_WIDTH_OFFSET - 20,
+                                      STARTING_HEIGHT + 130 + 75 * idx,
+                                      50, 50), 3)
                     if boolValues[idx] is True:
                         X = self.titleFont.render("X", True, "black")
                         Xrect = X.get_rect()
                         Xrect.topleft = (VALUE_WIDTH_OFFSET - 17,
-                                        STARTING_HEIGHT + 132 + 75 * idx)
+                                         STARTING_HEIGHT + 132 + 75 * idx)
                         self.SCREEN.blit(X, Xrect)
 
             # Start and quit buttons
@@ -267,7 +268,7 @@ class Train:
         self.CLOCK.tick(30)
 
     def __showStats(self):
-        
+
         maxDuration = max(self.durations)
         maxSize = max(self.sizes)
 
@@ -288,7 +289,7 @@ class Train:
             valueTextRect = valueText.get_rect()
             valueTextRect.topleft = (460 if idx < 1 else 860,
                                      600)
-            
+
             self.SCREEN.blit(text, textRect)
             self.SCREEN.blit(valueText, valueTextRect)
 
@@ -311,7 +312,7 @@ class Train:
             args.dontlearn = boolValues[0]
             args.visual = False
             args.speed = 10
-            args.plot = False # maybe implement it?
+            args.plot = False
             args.ui = True
             args.stepbystep = boolValues[1]
             args.nerd = boolValues[2]
@@ -340,7 +341,7 @@ class Train:
 
         if not boolValues[1]:  # Step by step mode
             Stats.updateStats(self.sizes, self.durations,
-                                                values[1], values[0])
+                              values[1], values[0])
 
         while True:
             mouse = pygame.mouse.get_pos()

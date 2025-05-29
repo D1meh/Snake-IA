@@ -44,6 +44,7 @@ def grayscale(surface):
             surface.set_at((x, y), (gray, gray, gray, a))
     return surface
 
+
 def getSnakeFacingDirection(snake):
     head = snake[0]
     tail = snake[1]
