@@ -1,7 +1,8 @@
 from Game import Game
 from State import State
 from .utils import fadeout, BACKGROUND, FONT, BUTTON, GREEN_APPLE, RED_APPLE, \
-    mouseClickedOnButton, getSnakeFacingDirection
+    mouseClickedOnButton, getSnakeFacingDirection, DRAGON_HEAD, DRAGON_WING, \
+    DRAGON_WING_ANGLE, DRAGON_BODY, DRAGON_BODY_ANGLE, DRAGON_TAIL
 
 import pygame
 
@@ -31,6 +32,92 @@ class Display:
     def initGame(self):
         self.game = Game(self.size)
 
+    def drawDragonHead(self, x, y):
+        if self.game.snake.size == 1:
+            if self.lastDirection == 'U':
+                angle = 0
+            elif self.lastDirection == 'D':
+                angle = 180
+            elif self.lastDirection == 'L':
+                angle = 90
+            else:  # Right
+                angle = 270
+
+        else:
+            nextCell = self.game.snake.pos[1]
+            if nextCell[0] == x and nextCell[1] == y - 1:  # Down
+                angle = 180
+            elif nextCell[0] == x and nextCell[1] == y + 1:  # Up
+                angle = 0
+            elif nextCell[0] == x - 1 and nextCell[1] == y:  # Left
+                angle = 270
+            else:  # Right
+                angle = 90
+        return pygame.transform.rotate(
+            pygame.transform.scale(DRAGON_HEAD,
+                                   [self.CELLSIZE, self.CELLSIZE]), angle)
+
+    def drawDragonBody(self, x, y):
+        bodyParts = {
+            0: DRAGON_WING,
+            1: DRAGON_WING_ANGLE,
+            2: DRAGON_BODY,
+            3: DRAGON_BODY_ANGLE
+        }
+
+        bodyNumber = self.game.snake.pos.index((x, y))
+        previousCell = self.game.snake.pos[bodyNumber - 1]
+        nextCell = self.game.snake.pos[bodyNumber + 1]\
+            if bodyNumber + 1 < self.game.snake.size else None
+        bodyPart = 0 if bodyNumber == 1 else 2
+        horizontalFlip = False
+        verticalFlip = False
+
+        if previousCell[0] == x and previousCell[1] == y - 1:  # Previous is up
+            angle = 0
+        elif previousCell[0] == x and previousCell[1] == y + 1:  # Down
+            angle = 180
+        elif previousCell[0] == x - 1 and previousCell[1] == y:  # Left
+            angle = 90
+        else:  # Right
+            angle = 270
+
+        if nextCell is None:
+            return pygame.transform.rotate(
+                pygame.transform.scale(DRAGON_TAIL,
+                                       [self.CELLSIZE, self.CELLSIZE]), angle)
+
+        if nextCell[0] == x and nextCell[1] == y - 1:  # Next is up
+            if angle != 180:
+                bodyPart += 1 if bodyPart % 2 == 0 else 0
+                verticalFlip = True if angle == 90 else False
+                angle = 270
+        elif nextCell[0] == x and nextCell[1] == y + 1:  # Down
+            if angle != 0:
+                bodyPart += 1 if bodyPart % 2 == 0 else 0
+                horizontalFlip = True if angle == 270 else False
+        elif nextCell[0] == x - 1 and nextCell[1] == y:  # Left
+            if angle != 270:
+                bodyPart += 1 if bodyPart % 2 == 0 else 0
+                verticalFlip = True if angle == 180 else False
+                angle = 0
+        else:  # Right
+            if angle != 90:
+                bodyPart += 1 if bodyPart % 2 == 0 else 0
+                horizontalFlip = True if angle != 180 else False
+
+        if bodyPart % 2 == 0:
+            return pygame.transform.rotate(
+                pygame.transform.scale(bodyParts[bodyPart],
+                                        [self.CELLSIZE, self.CELLSIZE]), angle)
+        else:
+            return pygame.transform.rotate(
+                    pygame.transform.flip(
+                        pygame.transform.scale(bodyParts[bodyPart],
+                                        [self.CELLSIZE, self.CELLSIZE]),
+                    horizontalFlip, verticalFlip),
+                angle)
+
     def drawMap(self):
         self.CELLSIZE = int(500 / self.size)
         redApple = pygame.transform.scale(RED_APPLE, [self.CELLSIZE, self.CELLSIZE])
@@ -42,14 +129,10 @@ class Display:
                     (self.CELLSIZE, self.CELLSIZE), pygame.SRCALPHA)
 
                 cell = self.game.board[y // self.CELLSIZE][x // self.CELLSIZE]
-                if cell in 'RG0':
-                    values = (150, 150, 150, TRANSPARENCY)
-                elif cell == 'H':
-                    values = (255, 255, 0, TRANSPARENCY)
-                elif cell == 'S':
-                    values = (0, 0, 255, TRANSPARENCY)
-                else:
+                if cell == 'W':
                     values = (0, 0, 0, TRANSPARENCY)
+                else:
+                    values = (150, 150, 150, TRANSPARENCY)
 
                 pygame.draw.rect(transparentCell, values,
                                  (0, 0, self.CELLSIZE, self.CELLSIZE))
@@ -61,6 +144,14 @@ class Display:
                 elif cell == 'G':
                     self.SCREEN.blit(greenApple, (x + WIDTH_OFFSET,
                                                    y + HEIGHT_OFFSET))
+                elif cell == 'H' and self.game.snake.size > 0:
+                    head = self.drawDragonHead(x // self.CELLSIZE, y // self.CELLSIZE)
+                    self.SCREEN.blit(head, (x + WIDTH_OFFSET,
+                                             y + HEIGHT_OFFSET))
+                elif cell == 'S':
+                    body = self.drawDragonBody(x // self.CELLSIZE, y // self.CELLSIZE)
+                    self.SCREEN.blit(body, (x + WIDTH_OFFSET,
+                                             y + HEIGHT_OFFSET))
                 pygame.draw.rect(self.SCREEN, (0, 0, 0),
                                  (x + WIDTH_OFFSET, y + HEIGHT_OFFSET,
                                      self.CELLSIZE, self.CELLSIZE), 1)
@@ -206,7 +297,7 @@ class Display:
                 if not self.stepbystep:
                     self.drawSpeedButton()
 
-                self.training.run(self.game, self.state, False)
+                self.lastDirection = self.training.run(self.game, self.state, False)
                 currentDuration += 1
 
                 pygame.display.flip()
@@ -290,6 +381,7 @@ class Display:
                         dontUpdateForXFrames -= 1 if dontUpdateForXFrames > 1\
                             else 0
                     currentDuration += 1
+                    self.lastDirection = direction
 
                 pygame.display.flip()
                 self.CLOCK.tick(30)

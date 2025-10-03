@@ -24,6 +24,29 @@ RED_APPLE = pygame.image.load(os.path.join(
             os.path.dirname(__file__), "statics/pomme_rouge.png"))
 RED_APPLE = pygame.transform.scale(RED_APPLE, [50, 50])
 
+DRAGON_HEAD = pygame.image.load(os.path.join(
+            os.path.dirname(__file__), "statics/dragon/head.png"))
+DRAGON_HEAD = pygame.transform.scale(DRAGON_HEAD, [50, 50])
+
+DRAGON_WING = pygame.image.load(os.path.join(
+            os.path.dirname(__file__), "statics/dragon/wing.png"))
+DRAGON_WING = pygame.transform.scale(DRAGON_WING, [50, 50])
+
+DRAGON_WING_ANGLE = pygame.image.load(os.path.join(
+            os.path.dirname(__file__), "statics/dragon/wing_angle.png"))
+DRAGON_WING_ANGLE = pygame.transform.scale(DRAGON_WING_ANGLE, [50, 50])
+
+DRAGON_BODY = pygame.image.load(os.path.join(
+            os.path.dirname(__file__), "statics/dragon/body.png"))
+DRAGON_BODY = pygame.transform.scale(DRAGON_BODY, [50, 50])
+
+DRAGON_BODY_ANGLE = pygame.image.load(os.path.join(
+            os.path.dirname(__file__), "statics/dragon/body_angle.png"))
+DRAGON_BODY_ANGLE = pygame.transform.scale(DRAGON_BODY_ANGLE, [50, 50])
+
+DRAGON_TAIL = pygame.image.load(os.path.join(
+            os.path.dirname(__file__), "statics/dragon/tail.png"))
+DRAGON_TAIL = pygame.transform.scale(DRAGON_TAIL, [50, 50])
 
 def fadeout(screen):
     fade = pygame.Surface(WINDOW_SIZE)

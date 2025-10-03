@@ -3,19 +3,19 @@
         "size": 10,
         "trainingSessions": 1000,
         "data": {
-            "ran#Times": 23,
+            "ran#Times": 27,
             "maxSize": 49,
-            "averageSize": 8.226913043478259,
-            "maxAverageSize": 30.869565217391305,
-            "averageSizeOnFirstHalf": 6.208153748377818,
-            "averageSizeOnSecondHalf": 12.667767268320858,
-            "averageSizeOnLastTenth": 17.904406708541867,
+            "averageSize": 8.482296296296294,
+            "maxAverageSize": 31.88888888888889,
+            "averageSizeOnFirstHalf": 6.180132157991637,
+            "averageSizeOnSecondHalf": 12.764206058814757,
+            "averageSizeOnLastTenth": 17.888167860341383,
             "maxDuration": 516524,
-            "averageDuration": 305.9018695652173,
-            "maxAverageDuration": 65785.13043478261,
-            "averageDurationOnFirstHalf": 358.4006056543018,
-            "averageDurationOnSecondHalf": 405.96112539073545,
-            "averageDurationOnLastTenth": 196.3596791623673
+            "averageDuration": 277.7703333333333,
+            "maxAverageDuration": 56314.18518518518,
+            "averageDurationOnFirstHalf": 335.6514744406339,
+            "averageDurationOnSecondHalf": 387.1809813205304,
+            "averageDurationOnLastTenth": 196.13748746961733
         }
     },
     {
