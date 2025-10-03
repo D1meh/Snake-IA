@@ -166,22 +166,22 @@ class Stats:
                 "Max Size:": stats['data']['maxSize'],
                 "Average Size:": f"{stats['data']['averageSize']:.2f}",
                 "Average Max Size:": f"{stats['data']['maxAverageSize']:.2f}",
-                "Average Size on First Half:":\
+                "Average Size on First Half:":
                     f"{stats['data']['averageSizeOnFirstHalf']:.2f}",
-                "Average Size on Second Half:":\
+                "Average Size on Second Half:":
                     f"{stats['data']['averageSizeOnSecondHalf']:.2f}",
-                "Average Size on Last Tenth:":\
+                "Average Size on Last Tenth:":
                     f"{stats['data']['averageSizeOnLastTenth']:.2f}",
                 " ": "",  # Skip line
                 "Max Duration:": stats['data']['maxDuration'],
                 "Average Duration:": f"{stats['data']['averageDuration']:.2f}",
-                "Average Max Duration:":\
+                "Average Max Duration:":
                     f"{stats['data']['maxAverageDuration']:.2f}",
-                "Average Duration on First Half:":\
+                "Average Duration on First Half:":
                     f"{stats['data']['averageDurationOnFirstHalf']:.2f}",
-                "Average Duration on Second Half:":\
+                "Average Duration on Second Half:":
                     f"{stats['data']['averageDurationOnSecondHalf']:.2f}",
-                "Average Duration on Last Tenth:":\
+                "Average Duration on Last Tenth:":
                     f"{stats['data']['averageDurationOnLastTenth']:.2f}"
             }
 

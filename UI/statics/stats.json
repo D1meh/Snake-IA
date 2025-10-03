@@ -3,17 +3,133 @@
         "size": 10,
         "trainingSessions": 1000,
         "data": {
-            "ran#Times": 3,
-            "maxSize": 46,
-            "averageSize": 13.602666666666666,
-            "averageSizeOnFirstHalf": 8.0732,
-            "averageSizeOnSecondHalf": 15.90306666666667,
-            "averageSizeOnLastTenth": 18.826666666666668,
-            "maxDuration": 11695,
-            "averageDuration": 190.32166666666666,
-            "averageDurationOnFirstHalf": 122.02253333333334,
-            "averageDurationOnSecondHalf": 194.446,
-            "averageDurationOnLastTenth": 174.384632034632
+            "ran#Times": 23,
+            "maxSize": 49,
+            "averageSize": 8.226913043478259,
+            "maxAverageSize": 30.869565217391305,
+            "averageSizeOnFirstHalf": 6.208153748377818,
+            "averageSizeOnSecondHalf": 12.667767268320858,
+            "averageSizeOnLastTenth": 17.904406708541867,
+            "maxDuration": 516524,
+            "averageDuration": 305.9018695652173,
+            "maxAverageDuration": 65785.13043478261,
+            "averageDurationOnFirstHalf": 358.4006056543018,
+            "averageDurationOnSecondHalf": 405.96112539073545,
+            "averageDurationOnLastTenth": 196.3596791623673
+        }
+    },
+    {
+        "size": 20,
+        "trainingSessions": 1000,
+        "data": {
+            "ran#Times": 1,
+            "maxSize": 81,
+            "averageSize": 22.373,
+            "maxAverageSize": 81.0,
+            "averageSizeOnFirstHalf": 13.92,
+            "averageSizeOnSecondHalf": 30.826,
+            "averageSizeOnLastTenth": 34.03,
+            "maxDuration": 7414,
+            "averageDuration": 542.182,
+            "maxAverageDuration": 7414.0,
+            "averageDurationOnFirstHalf": 494.984,
+            "averageDurationOnSecondHalf": 589.38,
+            "averageDurationOnLastTenth": 597.28
+        }
+    },
+    {
+        "size": 10,
+        "trainingSessions": 2000,
+        "data": {
+            "ran#Times": 2,
+            "maxSize": 47,
+            "averageSize": 16.50325,
+            "maxAverageSize": 46.0,
+            "averageSizeOnFirstHalf": 11.783666666666667,
+            "averageSizeOnSecondHalf": 19.796666666666667,
+            "averageSizeOnLastTenth": 20.582727272727272,
+            "maxDuration": 14172,
+            "averageDuration": 195.34975,
+            "maxAverageDuration": 8496.0,
+            "averageDurationOnFirstHalf": 127.14033333333333,
+            "averageDurationOnSecondHalf": 217.722,
+            "averageDurationOnLastTenth": 183.07590909090908
+        }
+    },
+    {
+        "size": 100,
+        "trainingSessions": 2000,
+        "data": {
+            "ran#Times": 2,
+            "maxSize": 396,
+            "averageSize": 58.81675,
+            "maxAverageSize": 220.5,
+            "averageSizeOnFirstHalf": 34.532666666666664,
+            "averageSizeOnSecondHalf": 53.465666666666664,
+            "averageSizeOnLastTenth": 29.364545454545453,
+            "maxDuration": 639552,
+            "averageDuration": 10625.0275,
+            "maxAverageDuration": 321186.0,
+            "averageDurationOnFirstHalf": 6294.644666666667,
+            "averageDurationOnSecondHalf": 7956.4546666666665,
+            "averageDurationOnLastTenth": 1169.4645454545455
+        }
+    },
+    {
+        "size": 8,
+        "trainingSessions": 1000,
+        "data": {
+            "ran#Times": 1,
+            "maxSize": 42,
+            "averageSize": 7.718,
+            "maxAverageSize": 42.0,
+            "averageSizeOnFirstHalf": 4.302,
+            "averageSizeOnSecondHalf": 11.134,
+            "averageSizeOnLastTenth": 13.46,
+            "maxDuration": 597,
+            "averageDuration": 53.631,
+            "maxAverageDuration": 597.0,
+            "averageDurationOnFirstHalf": 16.386,
+            "averageDurationOnSecondHalf": 90.876,
+            "averageDurationOnLastTenth": 102.52
+        }
+    },
+    {
+        "size": 10,
+        "trainingSessions": 10,
+        "data": {
+            "ran#Times": 1,
+            "maxSize": 4,
+            "averageSize": 3.1,
+            "maxAverageSize": 4.0,
+            "averageSizeOnFirstHalf": 3.2,
+            "averageSizeOnSecondHalf": 3.0,
+            "averageSizeOnLastTenth": 3.0,
+            "maxDuration": 9,
+            "averageDuration": 2.9,
+            "maxAverageDuration": 9.0,
+            "averageDurationOnFirstHalf": 4.2,
+            "averageDurationOnSecondHalf": 1.6,
+            "averageDurationOnLastTenth": 1.0
+        }
+    },
+    {
+        "size": 5,
+        "trainingSessions": 10,
+        "data": {
+            "ran#Times": 1,
+            "maxSize": 3,
+            "averageSize": 3.0,
+            "maxAverageSize": 3.0,
+            "averageSizeOnFirstHalf": 3.0,
+            "averageSizeOnSecondHalf": 3.0,
+            "averageSizeOnLastTenth": 3.0,
+            "maxDuration": 10,
+            "averageDuration": 3.7,
+            "maxAverageDuration": 10.0,
+            "averageDurationOnFirstHalf": 3.4,
+            "averageDurationOnSecondHalf": 4.0,
+            "averageDurationOnLastTenth": 6.0
         }
     }
 ]

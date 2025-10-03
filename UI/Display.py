@@ -1,6 +1,6 @@
 from Game import Game
 from State import State
-from .utils import fadeout, BACKGROUND, FONT, BUTTON,\
+from .utils import fadeout, BACKGROUND, FONT, BUTTON, GREEN_APPLE, RED_APPLE, \
     mouseClickedOnButton, getSnakeFacingDirection
 
 import pygame
@@ -33,6 +33,8 @@ class Display:
 
     def drawMap(self):
         self.CELLSIZE = int(500 / self.size)
+        redApple = pygame.transform.scale(RED_APPLE, [self.CELLSIZE, self.CELLSIZE])
+        greenApple = pygame.transform.scale(GREEN_APPLE, [self.CELLSIZE, self.CELLSIZE])
 
         for x in range(0, (self.size + 2) * self.CELLSIZE, self.CELLSIZE):
             for y in range(0, (self.size + 2) * self.CELLSIZE, self.CELLSIZE):
@@ -40,35 +42,28 @@ class Display:
                     (self.CELLSIZE, self.CELLSIZE), pygame.SRCALPHA)
 
                 cell = self.game.board[y // self.CELLSIZE][x // self.CELLSIZE]
-                if cell == '0':
-                    pygame.draw.rect(transparentCell,
-                                     (150, 150, 150, 255),
-                                     (0, 0, self.CELLSIZE, self.CELLSIZE))
+                if cell in 'RG0':
+                    values = (150, 150, 150, TRANSPARENCY)
                 elif cell == 'H':
-                    pygame.draw.rect(transparentCell,
-                                     (255, 255, 0, TRANSPARENCY),
-                                     (0, 0, self.CELLSIZE, self.CELLSIZE))
+                    values = (255, 255, 0, TRANSPARENCY)
                 elif cell == 'S':
-                    pygame.draw.rect(transparentCell,
-                                     (0, 0, 255, TRANSPARENCY),
-                                     (0, 0, self.CELLSIZE, self.CELLSIZE))
-                elif cell == 'R':
-                    pygame.draw.rect(transparentCell,
-                                     (255, 0, 0, TRANSPARENCY),
-                                     (0, 0, self.CELLSIZE, self.CELLSIZE))
-                elif cell == 'G':
-                    pygame.draw.rect(transparentCell,
-                                     (0, 255, 0, TRANSPARENCY),
-                                     (0, 0, self.CELLSIZE, self.CELLSIZE))
+                    values = (0, 0, 255, TRANSPARENCY)
                 else:
-                    pygame.draw.rect(transparentCell,
-                                     (0, 0, 0, TRANSPARENCY),
-                                     (0, 0, self.CELLSIZE, self.CELLSIZE))
+                    values = (0, 0, 0, TRANSPARENCY)
+
+                pygame.draw.rect(transparentCell, values,
+                                 (0, 0, self.CELLSIZE, self.CELLSIZE))
                 self.SCREEN.blit(transparentCell,
                                  (x + WIDTH_OFFSET, y + HEIGHT_OFFSET))
+                if cell == 'R':
+                    self.SCREEN.blit(redApple, (x + WIDTH_OFFSET,
+                                                 y + HEIGHT_OFFSET))
+                elif cell == 'G':
+                    self.SCREEN.blit(greenApple, (x + WIDTH_OFFSET,
+                                                   y + HEIGHT_OFFSET))
                 pygame.draw.rect(self.SCREEN, (0, 0, 0),
                                  (x + WIDTH_OFFSET, y + HEIGHT_OFFSET,
-                                  self.CELLSIZE, self.CELLSIZE), 1)
+                                     self.CELLSIZE, self.CELLSIZE), 1)
 
     def drawText(self, currentDuration):
         text = ["Duration: " + str(currentDuration),

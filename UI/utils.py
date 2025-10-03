@@ -16,6 +16,14 @@ BUTTON = pygame.image.load(os.path.join(
             os.path.dirname(__file__), "statics/button.png"))
 BUTTON = pygame.transform.scale(BUTTON, BUTTON_SIZE)
 
+GREEN_APPLE = pygame.image.load(os.path.join(
+            os.path.dirname(__file__), "statics/pomme_verte.png"))
+GREEN_APPLE = pygame.transform.scale(GREEN_APPLE, [50, 50])
+
+RED_APPLE = pygame.image.load(os.path.join(
+            os.path.dirname(__file__), "statics/pomme_rouge.png"))
+RED_APPLE = pygame.transform.scale(RED_APPLE, [50, 50])
+
 
 def fadeout(screen):
     fade = pygame.Surface(WINDOW_SIZE)
