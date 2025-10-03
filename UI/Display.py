@@ -109,19 +109,21 @@ class Display:
         if bodyPart % 2 == 0:
             return pygame.transform.rotate(
                 pygame.transform.scale(bodyParts[bodyPart],
-                                        [self.CELLSIZE, self.CELLSIZE]), angle)
+                                       [self.CELLSIZE, self.CELLSIZE]), angle)
         else:
             return pygame.transform.rotate(
                     pygame.transform.flip(
                         pygame.transform.scale(bodyParts[bodyPart],
-                                        [self.CELLSIZE, self.CELLSIZE]),
-                    horizontalFlip, verticalFlip),
-                angle)
+                                               [self.CELLSIZE, self.CELLSIZE]),
+                        horizontalFlip, verticalFlip),
+                    angle)
 
     def drawMap(self):
         self.CELLSIZE = int(500 / self.size)
-        redApple = pygame.transform.scale(RED_APPLE, [self.CELLSIZE, self.CELLSIZE])
-        greenApple = pygame.transform.scale(GREEN_APPLE, [self.CELLSIZE, self.CELLSIZE])
+        redApple = pygame.transform.scale(RED_APPLE,
+                                          [self.CELLSIZE, self.CELLSIZE])
+        greenApple = pygame.transform.scale(GREEN_APPLE,
+                                            [self.CELLSIZE, self.CELLSIZE])
 
         for x in range(0, (self.size + 2) * self.CELLSIZE, self.CELLSIZE):
             for y in range(0, (self.size + 2) * self.CELLSIZE, self.CELLSIZE):
@@ -140,18 +142,20 @@ class Display:
                                  (x + WIDTH_OFFSET, y + HEIGHT_OFFSET))
                 if cell == 'R':
                     self.SCREEN.blit(redApple, (x + WIDTH_OFFSET,
-                                                 y + HEIGHT_OFFSET))
+                                                y + HEIGHT_OFFSET))
                 elif cell == 'G':
                     self.SCREEN.blit(greenApple, (x + WIDTH_OFFSET,
-                                                   y + HEIGHT_OFFSET))
+                                                  y + HEIGHT_OFFSET))
                 elif cell == 'H' and self.game.snake.size > 0:
-                    head = self.drawDragonHead(x // self.CELLSIZE, y // self.CELLSIZE)
+                    head = self.drawDragonHead(x // self.CELLSIZE,
+                                               y // self.CELLSIZE)
                     self.SCREEN.blit(head, (x + WIDTH_OFFSET,
-                                             y + HEIGHT_OFFSET))
+                                            y + HEIGHT_OFFSET))
                 elif cell == 'S':
-                    body = self.drawDragonBody(x // self.CELLSIZE, y // self.CELLSIZE)
+                    body = self.drawDragonBody(x // self.CELLSIZE,
+                                               y // self.CELLSIZE)
                     self.SCREEN.blit(body, (x + WIDTH_OFFSET,
-                                             y + HEIGHT_OFFSET))
+                                            y + HEIGHT_OFFSET))
                 pygame.draw.rect(self.SCREEN, (0, 0, 0),
                                  (x + WIDTH_OFFSET, y + HEIGHT_OFFSET,
                                      self.CELLSIZE, self.CELLSIZE), 1)
@@ -297,7 +301,8 @@ class Display:
                 if not self.stepbystep:
                     self.drawSpeedButton()
 
-                self.lastDirection = self.training.run(self.game, self.state, False)
+                self.lastDirection = self.training.run(self.game,
+                                                       self.state, False)
                 currentDuration += 1
 
                 pygame.display.flip()

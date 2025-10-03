@@ -48,6 +48,7 @@ DRAGON_TAIL = pygame.image.load(os.path.join(
             os.path.dirname(__file__), "statics/dragon/tail.png"))
 DRAGON_TAIL = pygame.transform.scale(DRAGON_TAIL, [50, 50])
 
+
 def fadeout(screen):
     fade = pygame.Surface(WINDOW_SIZE)
     fade.fill((0, 0, 0))
